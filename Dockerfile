@@ -16,14 +16,14 @@ RUN yum install -y curl \
 RUN yum clean all
 
 ENV LANG en_US.utf8
-ENV TZ "US/Eastern"
+ENV TZ "US/Pacific"
 
 RUN groupadd -r verticadba
 RUN useradd -r -m -g verticadba dbadmin
 
-ADD vertica-7.0.2-1.x86_64.RHEL5.rpm /rpms/vertica-7.0.2-1.x86_64.RHEL5.rpm
+ADD vertica-7.1.1-0.x86_64.RHEL5.rpm /rpms/vertica-7.1.1-0.x86_64.RHEL5.rpm
 
-RUN yum install -y /rpms/vertica-7.0.2-1.x86_64.RHEL5.rpm
+RUN yum install -y /rpms/vertica-7.1.1-0.x86_64.RHEL5.rpm
 
 # In theory, someone should make things work without ignoring the errors.
 # But that's in theory, and for now, this seems sufficient.
@@ -40,7 +40,7 @@ ENV PYTHON_EGG_CACHE /tmp/.python-eggs
 ENV VERTICADATA /home/dbadmin/docker
 VOLUME  /home/dbadmin/docker
 
-ADD ./docker-entrypoint.sh /
-ENTRYPOINT ["/docker-entrypoint.sh"]
+ADD ./start_db.sh /
+CMD ["bash"]
 
 EXPOSE 5433
